@@ -1,0 +1,56 @@
+@import "vars";
+
+html, body {
+  overflow-x: hidden;
+  font-family: $font-stack;
+  margin: 0;
+  height: 100vh;
+}
+
+.point {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: black;
+  transition: all .3s ease-in-out;
+
+  &.adding {
+    transform: scale(1.1);
+  }
+
+  &.mousedown {
+    background: red;
+  }
+
+  &.mouseup {
+    background: darkred;
+  }
+
+  &.mousemove {
+    background: rgba(255, 192, 203, .25);
+  }
+
+  .pointInfo {
+    width: max-content;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    bottom: calc(100% + 15px);
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    transition: all .3s ease-in-out;
+
+    span {
+      display: block;
+    }
+  }
+
+  &:hover {
+    .pointInfo {
+      opacity: 1;
+    }
+  }
+}

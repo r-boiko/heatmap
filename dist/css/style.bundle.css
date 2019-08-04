@@ -1,0 +1,3 @@
+body,html{overflow-x:hidden;font-family:monospace,sans-serif;margin:0;height:100vh}.point{position:absolute;width:30px;height:30px;border-radius:50%;background:#000;transition:all .3s ease-in-out}.point.adding{transform:scale(1.1)}.point.mousedown{background:red}.point.mouseup{background:#8b0000}.point.mousemove{background:rgba(255,192,203,.25)}.point .pointInfo{width:max-content;position:absolute;z-index:1;left:50%;bottom:calc(100% + 15px);transform:translateX(-50%);opacity:0;pointer-events:none;user-select:none;transition:all .3s ease-in-out}.point .pointInfo span{display:block}.point:hover .pointInfo{opacity:1}
+
+/*# sourceMappingURL=style.bundle.css.map*/
