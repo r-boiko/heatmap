@@ -2,14 +2,17 @@ class Heatmap {
     constructor() {
         this.props = {
             elements: {
-                body: document.body
+                body: document.body,
+                filter: null
             },
             classes: {
                 point: 'point',
                 adding: 'adding',
-                pointInfo: 'pointInfo',
+                pointInfo: 'point_info',
                 filter: 'filter',
-                filterItem: 'filterItem'
+                filterItem: 'filter_item',
+                filterItemActive: 'filter_item__active',
+                showAll: 'show_all'
             },
             data: {
                 sessionId: null,
@@ -122,6 +125,7 @@ class Heatmap {
 
         let point = document.createElement('span');
         point.classList.add(classes.point, classes.adding, e.type);
+        point.dataset.filter = e.type;
         if (device === 'mobile') {
             point.style.left = `${e.changedTouches[0].pageX - 15}px`;
             point.style.top = `${e.changedTouches[0].pageY - 15}px`;
@@ -170,7 +174,7 @@ class Heatmap {
     }
 
     createFilter() {
-        let {elements: {body}, classes, data: {events, filterStorage}} = this.props, filter, filterItem;
+        let {elements, elements: {body}, classes, data: {events, filterStorage}} = this.props, filterItem;
 
         if (events.length === 0)
             return;
@@ -179,32 +183,76 @@ class Heatmap {
             if (filterStorage.length === 0) {
                 filterStorage.push(event.type);
 
-                filter = document.createElement('span');
-                filter.classList.add(classes.filter);
-                body.append(filter);
+                elements.filter = document.createElement('span');
+                elements.filter.classList.add(classes.filter);
+                body.append(elements.filter);
+                this.stopPropagationAllEvents(elements.filter);
 
                 filterItem = document.createElement('span');
-                filterItem.classList.add(classes.filterItem, event.type);
+                filterItem.classList.add(classes.filterItem, classes.filterItemActive);
+                filterItem.dataset.filter = classes.showAll;
+                filterItem.textContent = classes.showAll;
+                elements.filter.append(filterItem);
+
+                filterItem.addEventListener('click', (e) => {
+                    this.filter(e);
+                });
+
+                filterItem = document.createElement('span');
+                filterItem.classList.add(classes.filterItem);
+                filterItem.dataset.filter = event.type;
                 filterItem.textContent = event.type;
-                filter.append(filterItem);
+                elements.filter.append(filterItem);
+
+                filterItem.addEventListener('click', (e) => {
+                    this.filter(e);
+                });
             } else {
                 if (filterStorage.indexOf(event.type) === -1) {
                     filterStorage.push(event.type);
 
-                    console.log(filterStorage, 'filterStorage');
                     filterItem = document.createElement('span');
-                    filterItem.classList.add(classes.filterItem, event.type);
+                    filterItem.classList.add(classes.filterItem);
+                    filterItem.dataset.filter = event.type;
                     filterItem.textContent = event.type;
-                    filter.append(filterItem);
+                    elements.filter.append(filterItem);
+
+                    filterItem.addEventListener('click', (e) => {
+                        this.filter(e);
+                    });
                 }
             }
         });
-
-
     }
 
-    filter() {
+    filter(e) {
+        let {classes} = this.props;
 
+        let items = document.querySelectorAll(classes.filterItem);
+        items.forEach((item) => {
+            if(item.dataset.filter === e.target.dataset.filter){
+                console.log('ok');
+            }
+        });
+    }
+
+    stopPropagationAllEvents(element) {
+
+        element.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+        });
+
+        element.addEventListener('mouseup', (e) => {
+            e.stopPropagation();
+        });
+
+        element.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+        });
+
+        element.addEventListener('touchend', (e) => {
+            e.stopPropagation();
+        });
     }
 }
 
