@@ -1,6 +1,7 @@
 @import "vars";
 
 html, body {
+  touch-action: none;
   overflow-x: hidden;
   font-family: $font-stack;
   margin: 0;
@@ -29,6 +30,18 @@ html, body {
 
   &.mousemove {
     background: rgba(255, 192, 203, .25);
+  }
+
+  &.touchstart{
+    background: blue;
+  }
+
+  &.touchend{
+    background: darkblue;
+  }
+
+  &.touchmove{
+    background: rgba(100, 149, 237, .25);
   }
 
   .pointInfo {
