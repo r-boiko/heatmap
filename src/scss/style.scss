@@ -16,6 +16,10 @@ html, body {
   background: black;
   transition: all .3s ease-in-out;
 
+  &__hide {
+    opacity: 0;
+  }
+
   &.adding {
     transform: scale(1.1);
   }
@@ -88,6 +92,7 @@ html, body {
       background: black;
       color: white;
     }
+
     &:not(:last-child) {
       margin-bottom: 5px;
     }

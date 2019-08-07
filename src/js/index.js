@@ -12,7 +12,8 @@ class Heatmap {
                 filter: 'filter',
                 filterItem: 'filter_item',
                 filterItemActive: 'filter_item__active',
-                showAll: 'show_all'
+                showAll: 'show_all',
+                pointInfoHide: 'point__hide'
             },
             data: {
                 sessionId: null,
@@ -228,10 +229,23 @@ class Heatmap {
     filter(e) {
         let {classes} = this.props;
 
-        let items = document.querySelectorAll(classes.filterItem);
+        let filterItems = document.querySelectorAll(`.${classes.filterItem}`);
+        filterItems.forEach((filterItem) => {
+            if (e.target.dataset.filter === filterItem.dataset.filter) {
+                filterItem.classList.add(classes.filterItemActive);
+            } else {
+                filterItem.classList.remove(classes.filterItemActive);
+            }
+        });
+
+        let items = document.querySelectorAll(`.${classes.point}`);
         items.forEach((item) => {
-            if(item.dataset.filter === e.target.dataset.filter){
-                console.log('ok');
+            if (e.target.dataset.filter === classes.showAll) {
+                item.classList.remove(classes.pointInfoHide);
+            } else if (e.target.dataset.filter !== item.dataset.filter) {
+                item.classList.add(classes.pointInfoHide);
+            } else {
+                item.classList.remove(classes.pointInfoHide);
             }
         });
     }
